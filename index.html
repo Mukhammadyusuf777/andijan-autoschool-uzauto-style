@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Andijan Premium — Официальный портал автошколы | UzAuto Motors Style</title>
+  <meta name="description" content="Официальная автошкола высшей категории в Андижане. Подготовка водителей на новых автомобилях Chevrolet Cobalt, Gentra, Tracker. Беспроцентная рассрочка 0%, 98% сдачи с первого раза.">
+
+  <!-- Google Font: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            uzauto: {
+              navy: '#0B2545',
+              navylight: '#134074',
+              gold: '#DCA626',
+              goldhover: '#C58B12',
+              bg: '#F8F9FA'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- FontAwesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Custom UzAuto Motors Theme CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#F8F9FA] text-[#1A202C] antialiased min-h-screen flex flex-col selection:bg-[#DCA626]/30 selection:text-[#0B2545]">
+
+  <!-- 1. TOP UTILITY BAR (Dealership Hotline & Language Selector) -->
+  <div class="bg-[#061528] text-slate-300 text-xs py-2 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      
+      <!-- Left: City & Working Hours -->
+      <div class="flex items-center gap-5">
+        <div class="flex items-center gap-1.5 text-slate-300">
+          <i class="fas fa-location-dot text-[#DCA626] text-[11px]"></i>
+          <span data-i18n="topbar_location" class="font-semibold">г. Андижан</span>
+        </div>
+        <div class="hidden sm:flex items-center gap-1.5 text-slate-400">
+          <i class="far fa-clock text-slate-500 text-[11px]"></i>
+          <span data-i18n="topbar_hours">Пн - Сб: 08:00 - 20:00</span>
+        </div>
+      </div>
+
+      <!-- Right: Hotline & Language Switcher (RU is Primary) -->
+      <div class="flex items-center gap-4">
+        <!-- Direct Phone Link -->
+        <a href="tel:+998742280055" class="flex items-center gap-1.5 text-white font-bold hover:text-[#DCA626] transition">
+          <i class="fas fa-phone-volume text-[#DCA626] text-xs"></i>
+          <span>+998 (74) 228-00-55</span>
+        </a>
+
+        <!-- Dual Language Selector (RU / UZ) -->
+        <div class="flex items-center bg-white/10 rounded p-0.5 border border-white/15">
+          <button 
+            onclick="setLanguage('ru')" 
+            data-lang="ru"
+            class="lang-btn px-2.5 py-1 rounded text-xs font-bold transition"
+            title="Русский язык"
+          >
+            RU
+          </button>
+          <button 
+            onclick="setLanguage('uz')" 
+            data-lang="uz"
+            class="lang-btn px-2.5 py-1 rounded text-xs font-normal transition text-slate-300 hover:text-white"
+            title="O'zbek tili"
+          >
+            UZ
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 2. MAIN HEADER & NAVIGATION -->
+  <header class="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Corporate Logo (UzAuto / Chevrolet dealership badge style) -->
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-11 h-11 rounded bg-[#0B2545] flex items-center justify-center text-white border-2 border-[#DCA626] shadow-sm">
+            <i class="fas fa-award text-lg text-[#DCA626]"></i>
+          </div>
+          <div>
+            <div class="text-xl font-black tracking-tight text-[#0B2545] leading-none">
+              ANDIJAN <span class="text-[#DCA626]">PREMIUM</span>
+            </div>
+            <div class="text-[10px] tracking-widest uppercase font-bold text-slate-500 mt-1" data-i18n="hero_badge">
+              Официальный образовательный портал
+            </div>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden lg:flex items-center gap-7 text-xs font-bold uppercase tracking-wider text-slate-700">
+          <a href="#courses" class="hover:text-[#0B2545] transition pb-1 border-b-2 border-transparent hover:border-[#DCA626]" data-i18n="nav_courses">Курсы и категории</a>
+          <a href="#hero-slider" class="hover:text-[#0B2545] transition pb-1 border-b-2 border-transparent hover:border-[#DCA626]" data-i18n="nav_instructors">Инструкторы</a>
+          <a href="#fleet" class="hover:text-[#0B2545] transition pb-1 border-b-2 border-transparent hover:border-[#DCA626]" data-i18n="nav_fleet">Автопарк</a>
+          <a href="#calculator" class="hover:text-[#0B2545] transition pb-1 border-b-2 border-transparent hover:border-[#DCA626]" data-i18n="nav_calc">Калькулятор рассрочки</a>
+          <a href="#branches" class="hover:text-[#0B2545] transition pb-1 border-b-2 border-transparent hover:border-[#DCA626]" data-i18n="nav_branches">Филиалы и карта</a>
+          <a href="#faq" class="hover:text-[#0B2545] transition pb-1 border-b-2 border-transparent hover:border-[#DCA626]" data-i18n="nav_faq">Вопросы и ответы</a>
+        </nav>
+
+        <!-- CTA Action: Chevrolet Yellow Button -->
+        <div class="hidden sm:flex items-center gap-3">
+          <button onclick="openBookingModal()" class="btn-uzauto-gold px-5 py-2.5 text-xs">
+            <i class="fas fa-calendar-check mr-2"></i>
+            <span data-i18n="cta_test_drive">Записаться на тест-драйв</span>
+          </button>
+        </div>
+
+        <!-- Mobile Drawer Trigger -->
+        <button id="mobile-drawer-open" class="lg:hidden p-2 text-slate-700 hover:text-[#0B2545] focus:outline-none" aria-label="Open menu">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE SLIDE-OUT DRAWER -->
+  <div id="mobile-drawer" class="fixed inset-y-0 right-0 z-50 w-80 bg-white border-l border-slate-200 p-6 flex flex-col justify-between transform translate-x-full transition-transform duration-300 lg:hidden shadow-2xl">
+    <div>
+      <div class="flex items-center justify-between pb-4 border-b border-slate-200">
+        <span class="font-black text-base text-[#0B2545]">ANDIJAN <span class="text-[#DCA626]">PREMIUM</span></span>
+        <button id="mobile-drawer-close" class="p-2 text-slate-400 hover:text-slate-700">
+          <i class="fas fa-times text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Language Switcher -->
+      <div class="my-4 p-1 bg-slate-100 rounded flex gap-1">
+        <button onclick="setLanguage('ru')" data-lang="ru" class="lang-btn flex-1 py-1.5 text-xs font-bold rounded">
+          Русский (RU)
+        </button>
+        <button onclick="setLanguage('uz')" data-lang="uz" class="lang-btn flex-1 py-1.5 text-xs rounded">
+          O'zbekcha (UZ)
+        </button>
+      </div>
+
+      <nav class="flex flex-col gap-3 text-xs font-bold uppercase tracking-wider text-slate-700 mt-6">
+        <a href="#courses" class="mobile-nav-link py-2 border-b border-slate-100" data-i18n="nav_courses">Курсы и категории</a>
+        <a href="#hero-slider" class="mobile-nav-link py-2 border-b border-slate-100" data-i18n="nav_instructors">Инструкторы</a>
+        <a href="#fleet" class="mobile-nav-link py-2 border-b border-slate-100" data-i18n="nav_fleet">Автопарк</a>
+        <a href="#calculator" class="mobile-nav-link py-2 border-b border-slate-100" data-i18n="nav_calc">Калькулятор рассрочки</a>
+        <a href="#branches" class="mobile-nav-link py-2 border-b border-slate-100" data-i18n="nav_branches">Филиалы и карта</a>
+        <a href="#faq" class="mobile-nav-link py-2 border-b border-slate-100" data-i18n="nav_faq">Вопросы и ответы</a>
+      </nav>
+    </div>
+
+    <div class="pt-6 border-t border-slate-200 space-y-3">
+      <a href="tel:+998742280055" class="block text-center font-bold text-sm text-[#0B2545]">
+        <i class="fas fa-phone mr-1.5 text-[#DCA626]"></i> +998 (74) 228-00-55
+      </a>
+      <button onclick="openBookingModal(); document.getElementById('mobile-drawer').classList.add('translate-x-full');" class="w-full btn-uzauto-gold py-3 text-xs">
+        <span data-i18n="cta_test_drive">Записаться на тест-драйв</span>
+      </button>
+    </div>
+  </div>
+
+  <main class="flex-grow">
+    
+    <!-- 3. HERO SLIDER — "УЧИТЕЛЯ ВМЕСТО МАШИН" (Chevrolet.uz Fullscreen Showcase) -->
+    <section id="hero-slider" class="hero-slider-container min-h-[640px] lg:min-h-[720px] text-white flex items-center relative py-12 lg:py-16">
+      <div class="hero-slider-pattern"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          
+          <!-- Left Column: Instructor Name, Status & Chevrolet Condition Blocks -->
+          <div class="lg:col-span-7 flex flex-col justify-center">
+            
+            <!-- Dealership Badge -->
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/10 border border-white/20 rounded text-[11px] font-bold text-[#DCA626] uppercase tracking-wider mb-4 w-fit">
+              <i class="fas fa-certificate"></i>
+              <span data-i18n="hero_badge">Официальный портал • Стиль UzAuto Motors</span>
+            </div>
+
+            <!-- Instructor Name -->
+            <h1 id="hero-instructor-name" class="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-white mb-2 leading-tight">
+              АЛИШЕР КАРИМОВ
+            </h1>
+
+            <!-- Position & Subtitle -->
+            <div class="text-sm sm:text-base font-bold text-[#DCA626] uppercase tracking-wide mb-2 flex items-center gap-2">
+              <span id="hero-instructor-position">Главный шеф-инструктор</span>
+              <span class="text-slate-400">•</span>
+              <span id="hero-instructor-exp" class="text-slate-200">14+ лет стажа</span>
+            </div>
+
+            <!-- Tagline -->
+            <p id="hero-instructor-tagline" class="text-xs sm:text-sm text-slate-300 mb-6 max-w-xl leading-relaxed">
+              Мастер спорта и контраварийного вождения высшей категории. Обучение спокойствию и полному контролю над автомобилем в любой дорожной обстановке.
+            </p>
+
+            <!-- CHEVROLET FINANCE STYLE CONDITIONS GRID -->
+            <!-- (0% СТРАХА, 12 МЕСЯЦЕВ СОПРОВОЖДЕНИЯ, 98% СДАЧИ С 1-ГО РАЗА) -->
+            <div id="hero-conditions-container" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
+              <!-- Dynamically rendered via app.js -->
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap items-center gap-3">
+              <button onclick="openBookingModal()" class="btn-uzauto-gold px-7 py-3.5 text-xs">
+                <i class="fas fa-id-card mr-2"></i>
+                <span data-i18n="btn_enroll">Записаться на курс</span>
+              </button>
+              <a href="#courses" class="btn-uzauto-navy px-6 py-3.5 text-xs border border-white/30 bg-white/10 hover:bg-white/20">
+                <span data-i18n="btn_details">Посмотреть курсы</span>
+                <i class="fas fa-arrow-right ml-2 text-xs"></i>
+              </a>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Instructor Portrait Card -->
+          <div class="lg:col-span-5 flex flex-col items-center justify-center relative">
+            <div class="relative w-full max-w-md bg-white/5 border border-white/15 p-4 rounded-lg shadow-2xl backdrop-blur-sm">
+              <div class="relative h-80 sm:h-96 rounded overflow-hidden bg-[#061528] flex items-center justify-center">
+                <img 
+                  id="hero-instructor-photo" 
+                  src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=85" 
+                  alt="Инструктор" 
+                  class="w-full h-full object-cover object-top transition-opacity duration-300"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#061528] via-transparent to-transparent"></div>
+
+                <!-- Bottom Specialty Tag -->
+                <div class="absolute bottom-3 left-3 right-3 p-3 bg-[#0B2545]/90 border border-white/15 rounded backdrop-blur">
+                  <div class="text-[10px] uppercase font-bold text-slate-400">Специализация / Ixtisoslik</div>
+                  <div id="hero-instructor-specialty" class="text-xs font-bold text-white truncate">
+                    Категории B, C, CE • Экстремальное маневрирование
+                  </div>
+                </div>
+              </div>
+
+              <!-- Floating Graduate Count Badge -->
+              <div class="absolute -top-3 -right-3 bg-[#DCA626] text-[#061528] px-3 py-1.5 rounded shadow-lg flex items-center gap-2 font-black text-xs">
+                <i class="fas fa-user-graduate"></i>
+                <span><span id="hero-instructor-graduates">2 400+</span> ВЫПУСКНИКОВ</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Slider Pagination & Controls (Bottom Right Bar) -->
+        <div class="flex items-center justify-between pt-8 mt-8 border-t border-white/10">
+          <div class="flex items-center gap-3">
+            <span class="text-xs text-slate-400 uppercase tracking-widest font-bold">Наставник:</span>
+            <span id="hero-slide-counter" class="font-mono text-sm font-black text-[#DCA626]">01 / 04</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="hero-prev-btn" class="w-10 h-10 rounded border border-white/20 bg-white/5 hover:bg-white/20 flex items-center justify-center text-white transition" aria-label="Previous slide">
+              <i class="fas fa-chevron-left text-xs"></i>
+            </button>
+            <button id="hero-next-btn" class="w-10 h-10 rounded border border-white/20 bg-white/5 hover:bg-white/20 flex items-center justify-center text-white transition" aria-label="Next slide">
+              <i class="fas fa-chevron-right text-xs"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. DEALERSHIP QUICK SERVICES BAR -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-20">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <div onclick="openBookingModal()" class="service-bar-item p-4 flex items-center gap-3.5 shadow-sm">
+          <div class="w-12 h-12 rounded bg-amber-50 border border-amber-200 text-[#DCA626] flex items-center justify-center text-lg shrink-0">
+            <i class="fas fa-car-side"></i>
+          </div>
+          <div>
+            <div class="font-bold text-xs uppercase text-[#0B2545]" data-i18n="cta_test_drive">Тест-драйв (Пробный урок)</div>
+            <div class="text-[11px] text-slate-500">Бесплатный заезд с инструктором</div>
+          </div>
+        </div>
+
+        <div onclick="scrollToCalculator()" class="service-bar-item p-4 flex items-center gap-3.5 shadow-sm">
+          <div class="w-12 h-12 rounded bg-blue-50 border border-blue-200 text-[#0B2545] flex items-center justify-center text-lg shrink-0">
+            <i class="fas fa-calculator"></i>
+          </div>
+          <div>
+            <div class="font-bold text-xs uppercase text-[#0B2545]" data-i18n="nav_calc">Рассрочка 0% переплаты</div>
+            <div class="text-[11px] text-slate-500">Оплата на 3, 6 или 12 месяцев</div>
+          </div>
+        </div>
+
+        <div onclick="scrollToCourses()" class="service-bar-item p-4 flex items-center gap-3.5 shadow-sm">
+          <div class="w-12 h-12 rounded bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center text-lg shrink-0">
+            <i class="fas fa-shield-halved"></i>
+          </div>
+          <div>
+            <div class="font-bold text-xs uppercase text-[#0B2545]">98% Сдача с первого раза</div>
+            <div class="text-[11px] text-slate-500">Официальный договор с гарантией</div>
+          </div>
+        </div>
+
+        <div onclick="scrollToBranches()" class="service-bar-item p-4 flex items-center gap-3.5 shadow-sm">
+          <div class="w-12 h-12 rounded bg-slate-100 border border-slate-200 text-slate-700 flex items-center justify-center text-lg shrink-0">
+            <i class="fas fa-location-dot"></i>
+          </div>
+          <div>
+            <div class="font-bold text-xs uppercase text-[#0B2545]">4 филиала в Андижане</div>
+            <div class="text-[11px] text-slate-500">Центр, Вокзал, Базар, Автодром</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. SECTION «KURSLAR RO'YXATI / КУРСЫ И КАТЕГОРИИ» (Chevrolet Model Lineup Grid) -->
+    <section id="courses" class="py-16 sm:py-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <span class="section-marker"></span>
+          <div class="text-xs font-black tracking-widest text-[#DCA626] uppercase mb-1" data-i18n="courses_heading_badge">
+            ОБРАЗОВАТЕЛЬНЫЙ МОДЕЛЬНЫЙ РЯД
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-black text-[#0B2545] uppercase tracking-tight mb-3" data-i18n="courses_title">
+            Каталог курсов и категорий обучения
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed" data-i18n="courses_subtitle">
+            Выберите подходящую категорию подготовки с фиксированной стоимостью, новыми автомобилями и официальной гарантией сдачи.
+          </p>
+        </div>
+
+        <!-- Filter Tabs (Chevrolet-style tabs) -->
+        <div class="flex flex-wrap items-center justify-center gap-2 mb-10">
+          <button data-category="all" class="course-filter-btn px-4 py-2 text-xs font-bold rounded uppercase tracking-wider bg-[#0B2545] text-white transition border border-[#0B2545]">
+            <span data-i18n="filter_all">Все категории</span>
+          </button>
+          <button data-category="cat_b" class="course-filter-btn px-4 py-2 text-xs font-bold rounded uppercase tracking-wider bg-white text-slate-700 border border-slate-200 hover:border-[#0B2545] transition">
+            <span data-i18n="filter_b">Категория B (Легковые)</span>
+          </button>
+          <button data-category="cat_c" class="course-filter-btn px-4 py-2 text-xs font-bold rounded uppercase tracking-wider bg-white text-slate-700 border border-slate-200 hover:border-[#0B2545] transition">
+            <span data-i18n="filter_c">Категория C / CE (Грузовые)</span>
+          </button>
+          <button data-category="cat_a" class="course-filter-btn px-4 py-2 text-xs font-bold rounded uppercase tracking-wider bg-white text-slate-700 border border-slate-200 hover:border-[#0B2545] transition">
+            <span data-i18n="filter_a">Категория A (Мото)</span>
+          </button>
+          <button data-category="cat_vip" class="course-filter-btn px-4 py-2 text-xs font-bold rounded uppercase tracking-wider bg-white text-slate-700 border border-slate-200 hover:border-[#0B2545] transition">
+            <span data-i18n="filter_vip">VIP Обучение</span>
+          </button>
+        </div>
+
+        <!-- Dealership Cards Grid (Dynamically rendered via app.js) -->
+        <div id="courses-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Populated from UZAUTO_DATA.courses -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6. SECTION «ФИНАНСОВЫЙ КАЛЬКУЛЯТОР» (Chevrolet Car Loan Calculator Adaptation) -->
+    <section id="calculator" class="py-16 bg-white border-y border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="section-marker"></span>
+          <div class="text-xs font-black tracking-widest text-[#DCA626] uppercase mb-1" data-i18n="calc_heading_badge">
+            ФИНАНСОВЫЕ УСЛОВИЯ CHEVROLET
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-black text-[#0B2545] uppercase tracking-tight mb-3" data-i18n="calc_title">
+            Калькулятор беспроцентной рассрочки
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed" data-i18n="calc_subtitle">
+            Рассчитайте ежемесячный платеж без банковских процентов и скрытых комиссий за 10 секунд.
+          </p>
+        </div>
+
+        <!-- Calculator Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          <!-- Configurator Column (Left) -->
+          <div class="lg:col-span-7 bg-[#F8F9FA] border border-slate-200 p-6 sm:p-8 rounded-lg">
+            
+            <!-- Step 1: Course Selection -->
+            <div class="mb-6">
+              <label class="block text-xs font-black uppercase text-[#0B2545] tracking-wider mb-2" data-i18n="calc_step1">
+                1. Выберите курс обучения
+              </label>
+              <select id="calc-category-select" class="w-full bg-white border border-slate-300 rounded p-3 text-xs sm:text-sm font-semibold text-[#0B2545] focus:outline-none focus:border-[#0B2545]">
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+
+            <!-- Step 2: Down Payment -->
+            <div class="mb-6">
+              <label class="block text-xs font-black uppercase text-[#0B2545] tracking-wider mb-2" data-i18n="calc_step2">
+                2. Первоначальный взнос
+              </label>
+              <div class="grid grid-cols-4 gap-2">
+                <div>
+                  <input type="radio" name="calc-down" id="down-0" value="0" class="hidden" checked>
+                  <label for="down-0" class="calc-radio-label">0%</label>
+                </div>
+                <div>
+                  <input type="radio" name="calc-down" id="down-20" value="20" class="hidden">
+                  <label for="down-20" class="calc-radio-label">20%</label>
+                </div>
+                <div>
+                  <input type="radio" name="calc-down" id="down-30" value="30" class="hidden">
+                  <label for="down-30" class="calc-radio-label">30%</label>
+                </div>
+                <div>
+                  <input type="radio" name="calc-down" id="down-50" value="50" class="hidden">
+                  <label for="down-50" class="calc-radio-label">50%</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3: Term in Months -->
+            <div>
+              <label class="block text-xs font-black uppercase text-[#0B2545] tracking-wider mb-2" data-i18n="calc_step3">
+                3. Срок рассрочки (месяцы)
+              </label>
+              <div class="grid grid-cols-3 gap-2">
+                <div>
+                  <input type="radio" name="calc-term" id="term-3" value="3" class="hidden" checked>
+                  <label for="term-3" class="calc-radio-label">3 месяца</label>
+                </div>
+                <div>
+                  <input type="radio" name="calc-term" id="term-6" value="6" class="hidden">
+                  <label for="term-6" class="calc-radio-label">6 месяцев</label>
+                </div>
+                <div>
+                  <input type="radio" name="calc-term" id="term-12" value="12" class="hidden">
+                  <label for="term-12" class="calc-radio-label">12 месяцев</label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Summary Financial Panel (Right) -->
+          <div class="lg:col-span-5 bg-[#0B2545] text-white p-6 sm:p-8 rounded-lg shadow-xl">
+            <h3 class="text-sm font-black uppercase tracking-wider text-[#DCA626] pb-4 mb-4 border-b border-white/10" data-i18n="calc_summary_title">
+              Предварительный финансовый расчет
+            </h3>
+
+            <div class="space-y-4 text-xs mb-8">
+              <div class="flex items-center justify-between pb-3 border-b border-white/10">
+                <span class="text-slate-300" data-i18n="calc_total_cost">Общая стоимость обучения:</span>
+                <span id="calc-res-total" class="text-base font-black text-white">3 800 000 сум</span>
+              </div>
+              <div class="flex items-center justify-between pb-3 border-b border-white/10">
+                <span class="text-slate-300" data-i18n="calc_down_payment">Первоначальный платеж:</span>
+                <span id="calc-res-down" class="text-sm font-extrabold text-[#DCA626]">0 сум</span>
+              </div>
+              <div class="flex items-center justify-between pb-3 border-b border-white/10">
+                <span class="text-slate-300" data-i18n="calc_overpayment">Переплата по рассрочке:</span>
+                <span id="calc-res-overpay" class="text-xs font-bold text-emerald-400">0 сум (0% годовых)</span>
+              </div>
+              <div class="bg-white/10 p-4 rounded border border-white/15">
+                <div class="text-[11px] text-slate-300 uppercase tracking-wider font-bold mb-1" data-i18n="calc_monthly_payment">
+                  Ежемесячный платеж:
+                </div>
+                <div id="calc-res-monthly" class="text-2xl sm:text-3xl font-black text-[#DCA626]">
+                  1 266 000 сум
+                </div>
+              </div>
+            </div>
+
+            <button id="calc-order-submit-btn" class="w-full btn-uzauto-gold py-3.5 text-xs">
+              <i class="fas fa-file-signature mr-2"></i>
+              <span data-i18n="calc_order_btn">Оформить рассрочку онлайн</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 7. SECTION «НАШ АВТОПАРК» (UzAuto Official Fleet) -->
+    <section id="fleet" class="py-16 sm:py-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="section-marker"></span>
+          <div class="text-xs font-black tracking-widest text-[#DCA626] uppercase mb-1" data-i18n="fleet_heading_badge">
+            УЧЕБНЫЙ АВТОПАРК
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-black text-[#0B2545] uppercase tracking-tight mb-3" data-i18n="fleet_title">
+            Современные автомобили UzAuto Motors
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed" data-i18n="fleet_subtitle">
+            Все автомобили 2024-2026 года выпуска, оборудованы сертифицированными дублирующими педалями и системами безопасности.
+          </p>
+        </div>
+
+        <div id="fleet-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Populated from UZAUTO_DATA.fleet -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 8. SECTION «FILIALLAR VA XARITA» (Andijan Dealership Branches & Leaflet Map) -->
+    <section id="branches" class="py-16 sm:py-20 bg-white border-t border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="section-marker"></span>
+          <div class="text-xs font-black tracking-widest text-[#DCA626] uppercase mb-1" data-i18n="branches_heading_badge">
+            ДИЛЕРСКАЯ СЕТЬ В АНДИЖАНЕ
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-black text-[#0B2545] uppercase tracking-tight mb-3" data-i18n="branches_title">
+            Филиалы и собственный автодромный полигон
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed" data-i18n="branches_subtitle">
+            Учитесь рядом с домом или работой. Все филиалы оснащены мультимедийными компьютерными классами.
+          </p>
+        </div>
+
+        <!-- Branches 2-Column Layout (List on Left, Interactive Map on Right) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          
+          <!-- Branch Cards List (Left 5 Cols) -->
+          <div id="branches-list-container" class="lg:col-span-5 space-y-3.5 max-h-[560px] overflow-y-auto pr-1">
+            <!-- Populated via app.js -->
+          </div>
+
+          <!-- Interactive Leaflet Map (Right 7 Cols) -->
+          <div class="lg:col-span-7 h-[400px] lg:h-[560px] rounded-lg overflow-hidden border border-slate-200 shadow-sm relative">
+            <div id="branches-map" class="w-full h-full"></div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 9. SECTION «ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ (FAQ)» -->
+    <section id="faq" class="py-16 sm:py-20 bg-[#F8F9FA]">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="section-marker"></span>
+          <div class="text-xs font-black tracking-widest text-[#DCA626] uppercase mb-1" data-i18n="faq_heading_badge">
+            СПРАВОЧНАЯ ИНФОРМАЦИЯ
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-black text-[#0B2545] uppercase tracking-tight mb-3" data-i18n="faq_title">
+            Часто задаваемые вопросы
+          </h2>
+        </div>
+
+        <!-- Accordion Container -->
+        <div id="faq-accordion-container" class="space-y-3">
+          <!-- Populated from UZAUTO_DATA.faq -->
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 10. DEALERSHIP FOOTER -->
+  <footer class="bg-[#061528] text-slate-300 border-t border-white/10 pt-16 pb-12 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-12 border-b border-white/10">
+        
+        <!-- Col 1: About Portal -->
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-8 h-8 rounded bg-[#0B2545] border border-[#DCA626] flex items-center justify-center text-white">
+              <i class="fas fa-award text-xs text-[#DCA626]"></i>
+            </div>
+            <span class="font-black text-sm text-white tracking-tight">ANDIJAN <span class="text-[#DCA626]">PREMIUM</span></span>
+          </div>
+          <p class="text-slate-400 leading-relaxed mb-4 text-[11px]" data-i18n="footer_desc">
+            Официальный образовательный портал автошколы Andijan Premium в визуальном стиле UzAuto Motors. Подготовка водителей высшей категории в Андижане.
+          </p>
+          <div class="text-[11px] text-[#DCA626] font-semibold">
+            Лицензия № AVTO-AN-2024/098
+          </div>
+        </div>
+
+        <!-- Col 2: Navigation Links -->
+        <div>
+          <h4 class="font-bold text-white uppercase text-xs tracking-wider mb-4">Навигация</h4>
+          <ul class="space-y-2 text-slate-400">
+            <li><a href="#courses" class="hover:text-white transition">Курсы и категории</a></li>
+            <li><a href="#hero-slider" class="hover:text-white transition">Инструкторы автошколы</a></li>
+            <li><a href="#fleet" class="hover:text-white transition">Учебный автопарк</a></li>
+            <li><a href="#calculator" class="hover:text-white transition">Калькулятор рассрочки</a></li>
+            <li><a href="#branches" class="hover:text-white transition">Филиалы в Андижане</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Categories -->
+        <div>
+          <h4 class="font-bold text-white uppercase text-xs tracking-wider mb-4">Категории</h4>
+          <ul class="space-y-2 text-slate-400">
+            <li>Категория B — Chevrolet Cobalt (АКПП)</li>
+            <li>Категория B — Chevrolet Gentra (МКПП)</li>
+            <li>Категория C & CE — Isuzu NPR</li>
+            <li>Категория A / A1 — Мотоциклы</li>
+            <li>VIP Обучение — Tracker & Onix</li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Contacts & Social -->
+        <div>
+          <h4 class="font-bold text-white uppercase text-xs tracking-wider mb-4" data-i18n="nav_contact">Контакты</h4>
+          <div class="mb-3">
+            <div class="text-[11px] text-slate-400" data-i18n="footer_hotline_title">Телефон горячей линии:</div>
+            <a href="tel:+998742280055" class="text-base font-black text-white hover:text-[#DCA626] transition">
+              +998 (74) 228-00-55
+            </a>
+          </div>
+          <p class="text-[11px] text-slate-400 mb-4">г. Андижан, проспект Алишера Навои, 45</p>
+          <div class="flex items-center gap-3">
+            <a href="#" class="w-8 h-8 rounded bg-white/10 hover:bg-[#DCA626] hover:text-[#061528] flex items-center justify-center text-white transition"><i class="fab fa-telegram-plane"></i></a>
+            <a href="#" class="w-8 h-8 rounded bg-white/10 hover:bg-[#DCA626] hover:text-[#061528] flex items-center justify-center text-white transition"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="w-8 h-8 rounded bg-white/10 hover:bg-[#DCA626] hover:text-[#061528] flex items-center justify-center text-white transition"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
+        <div>© 2026 Andijan Premium Avtomaktab. <span data-i18n="footer_rights">Все права защищены.</span></div>
+        <div class="text-slate-400">Design Inspired by UzAuto Motors (chevrolet.uz)</div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- 11. DEALERSHIP BOOKING MODAL ("ЗАПИСЬ НА ТЕСТ-ДРАЙВ / ОБУЧЕНИЕ") -->
+  <div id="booking-modal" class="modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-lg max-w-lg w-full overflow-hidden shadow-2xl border border-slate-200 animate-fadeIn">
+      
+      <!-- Modal Header -->
+      <div class="bg-[#0B2545] p-5 text-white flex items-center justify-between">
+        <div>
+          <span class="text-[10px] font-bold text-[#DCA626] uppercase tracking-wider">ОФИЦИАЛЬНАЯ ЗАЯВКА</span>
+          <h3 class="text-base font-black uppercase text-white" data-i18n="modal_title">Запись на тест-драйв / Обучение</h3>
+        </div>
+        <button id="booking-modal-close" class="text-slate-300 hover:text-white p-1.5 focus:outline-none">
+          <i class="fas fa-times text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6">
+        
+        <!-- Form Container -->
+        <div id="modal-form-box">
+          <p class="text-xs text-slate-600 mb-5 leading-relaxed" data-i18n="modal_subtitle">
+            Оставьте ваши данные, и старший менеджер свяжется с вами в течение 10 минут для подтверждения бронирования.
+          </p>
+
+          <form id="booking-form" class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold uppercase text-[#0B2545] mb-1" data-i18n="modal_name_label">Ваше имя и фамилия</label>
+              <input 
+                type="text" 
+                required 
+                class="w-full bg-slate-50 border border-slate-300 rounded p-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#0B2545]" 
+                placeholder="Например: Алишер Усманов"
+                data-i18n-placeholder="modal_name_placeholder"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase text-[#0B2545] mb-1" data-i18n="modal_phone_label">Номер телефона</label>
+              <input 
+                type="tel" 
+                required 
+                value="+998 "
+                class="w-full bg-slate-50 border border-slate-300 rounded p-2.5 text-xs font-mono text-slate-800 focus:outline-none focus:border-[#0B2545]" 
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase text-[#0B2545] mb-1" data-i18n="modal_course_label">Интересующая категория</label>
+              <select id="modal-course-select" class="w-full bg-slate-50 border border-slate-300 rounded p-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#0B2545]">
+                <!-- Options populated dynamically -->
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase text-[#0B2545] mb-1" data-i18n="modal_branch_label">Удобный филиал в Андижане</label>
+              <select id="modal-branch-select" class="w-full bg-slate-50 border border-slate-300 rounded p-2.5 text-xs text-slate-800 focus:outline-none focus:border-[#0B2545]">
+                <!-- Options populated dynamically -->
+              </select>
+            </div>
+
+            <button type="submit" class="w-full btn-uzauto-gold py-3 text-xs mt-2">
+              <i class="fas fa-paper-plane mr-2"></i>
+              <span data-i18n="btn_submit_order">Отправить заявку</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Success Container -->
+        <div id="modal-success-box" class="hidden py-8 text-center">
+          <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+            <i class="fas fa-check"></i>
+          </div>
+          <h4 class="text-base font-black text-[#0B2545] uppercase mb-2" data-i18n="modal_success_title">Заявка успешно принята!</h4>
+          <p class="text-xs text-slate-600 mb-6 leading-relaxed" data-i18n="modal_success_desc">
+            Менеджер автошколы Andijan Premium свяжется с вами по указанному номеру для подбора удобного времени.
+          </p>
+          <button onclick="closeBookingModal()" class="btn-uzauto-navy px-8 py-2.5 text-xs">
+            <span data-i18n="btn_close">Закрыть</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 12. COURSE DETAILS MODAL -->
+  <div id="course-details-modal" class="modal-overlay fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <div id="course-details-content" class="bg-white rounded-lg max-w-xl w-full overflow-hidden shadow-2xl border border-slate-200">
+      <!-- Populated dynamically via openCourseDetails() -->
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Application Data & Script -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

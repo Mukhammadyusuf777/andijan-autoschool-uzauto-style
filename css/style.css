@@ -1,0 +1,267 @@
+/* 
+ * Andijan Premium Driving School — UzAuto Motors (chevrolet.uz) Theme
+ * Strict Corporate Styling: Deep Navy (#0B2545), Chevrolet Gold (#DCA626), Off-White (#F8F9FA)
+ */
+
+:root {
+  --color-uzauto-navy: #0B2545;
+  --color-uzauto-navy-light: #134074;
+  --color-uzauto-navy-dark: #061528;
+  --color-uzauto-gold: #DCA626;
+  --color-uzauto-gold-hover: #C58B12;
+  --color-uzauto-gold-light: #FFF7E6;
+  --color-uzauto-bg: #F8F9FA;
+  --color-uzauto-card: #FFFFFF;
+  --color-uzauto-border: #E2E8F0;
+  --color-uzauto-border-dark: #CBD5E1;
+  --color-uzauto-text: #1A202C;
+  --color-uzauto-muted: #64748B;
+}
+
+body {
+  background-color: var(--color-uzauto-bg);
+  color: var(--color-uzauto-text);
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-uzauto-navy-light);
+}
+
+/* Chevrolet Gold Dealership Button */
+.btn-uzauto-gold {
+  background: linear-gradient(180deg, #EAA023 0%, #DCA626 100%);
+  color: #061528;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(220, 166, 38, 0.25);
+  transition: all 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #D19515;
+}
+
+.btn-uzauto-gold:hover {
+  background: linear-gradient(180deg, #DCA626 0%, #C58B12 100%);
+  box-shadow: 0 4px 12px rgba(220, 166, 38, 0.4);
+  transform: translateY(-1px);
+  color: #000;
+}
+
+.btn-uzauto-gold:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(220, 166, 38, 0.3);
+}
+
+/* Corporate Navy Button */
+.btn-uzauto-navy {
+  background-color: var(--color-uzauto-navy);
+  color: #FFFFFF;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-uzauto-navy-dark);
+}
+
+.btn-uzauto-navy:hover {
+  background-color: var(--color-uzauto-navy-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(11, 37, 69, 0.25);
+  color: #FFFFFF;
+}
+
+/* Corporate Outline Button */
+.btn-uzauto-outline {
+  background-color: transparent;
+  color: var(--color-uzauto-navy);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border: 1.5px solid var(--color-uzauto-navy);
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-uzauto-outline:hover {
+  background-color: var(--color-uzauto-navy);
+  color: #FFFFFF;
+}
+
+/* Section Title Accent Marker (like Chevrolet portal) */
+.section-marker {
+  display: inline-block;
+  width: 32px;
+  height: 4px;
+  background-color: var(--color-uzauto-gold);
+  margin-bottom: 12px;
+}
+
+/* Hero Section Carousel Styles */
+.hero-slider-container {
+  background: linear-gradient(135deg, #0B2545 0%, #134074 60%, #1A4D8C 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-slider-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+
+/* Chevrolet Finance Style Condition Box */
+.condition-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-left: 4px solid var(--color-uzauto-gold);
+  border-radius: 4px;
+  padding: 16px 20px;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(4px);
+}
+
+.condition-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Dealership Car Card (Chevrolet.uz Style) */
+.dealer-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-uzauto-border);
+  border-radius: 6px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.dealer-card:hover {
+  border-color: #0B2545;
+  box-shadow: 0 12px 28px rgba(11, 37, 69, 0.1);
+  transform: translateY(-3px);
+}
+
+/* Dealership Badges */
+.dealer-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  background-color: var(--color-uzauto-gold-light);
+  color: #925808;
+  border: 1px solid rgba(220, 166, 38, 0.3);
+}
+
+/* Quick Service Cards */
+.service-bar-item {
+  background: #FFFFFF;
+  border: 1px solid var(--color-uzauto-border);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.service-bar-item:hover {
+  border-color: var(--color-uzauto-gold);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+/* Interactive Calculator Tabs & Inputs */
+.calc-radio-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  background-color: #FFFFFF;
+  border: 1.5px solid var(--color-uzauto-border);
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.15s ease;
+  color: var(--color-uzauto-navy);
+}
+
+input[type="radio"]:checked + .calc-radio-label {
+  background-color: var(--color-uzauto-navy);
+  border-color: var(--color-uzauto-navy);
+  color: #FFFFFF;
+  box-shadow: 0 2px 6px rgba(11, 37, 69, 0.2);
+}
+
+/* Leaflet Map Customization */
+.custom-leaflet-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-uzauto-navy);
+  border: 2px solid var(--color-uzauto-gold);
+  color: #FFFFFF;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  font-size: 14px;
+  transition: transform 0.2s ease;
+}
+
+.custom-leaflet-marker:hover {
+  transform: scale(1.15);
+}
+
+/* Branch List Selected Item */
+.branch-card-active {
+  border-color: var(--color-uzauto-navy) !important;
+  background-color: #F0F4F8 !important;
+  box-shadow: 0 4px 12px rgba(11, 37, 69, 0.08) !important;
+}
+
+/* Accordion Styling */
+.faq-accordion-item {
+  border: 1px solid var(--color-uzauto-border);
+  background-color: #FFFFFF;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.faq-accordion-item:hover {
+  border-color: var(--color-uzauto-navy-light);
+}
+
+/* Modal Overlay Animation */
+.modal-overlay {
+  background: rgba(11, 37, 69, 0.75);
+  backdrop-filter: blur(5px);
+  transition: opacity 0.3s ease;
+}
