@@ -190,7 +190,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
           <!-- Left Column: Instructor Name, Status & Chevrolet Condition Blocks -->
-          <div class="lg:col-span-7 flex flex-col justify-center">
+          <div id="hero-left-content" class="lg:col-span-7 flex flex-col justify-center hero-transition-element">
             
             <!-- Dealership Badge -->
             <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/10 border border-white/20 rounded text-[11px] font-bold text-[#DCA626] uppercase tracking-wider mb-4 w-fit">
@@ -236,14 +236,14 @@
           </div>
 
           <!-- Right Column: Instructor Portrait Card -->
-          <div class="lg:col-span-5 flex flex-col items-center justify-center relative">
+          <div id="hero-right-content" class="lg:col-span-5 flex flex-col items-center justify-center relative hero-transition-element">
             <div class="relative w-full max-w-md bg-white/5 border border-white/15 p-4 rounded-lg shadow-2xl backdrop-blur-sm">
               <div class="relative h-80 sm:h-96 rounded overflow-hidden bg-[#061528] flex items-center justify-center">
                 <img 
                   id="hero-instructor-photo" 
                   src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=85" 
                   alt="Инструктор" 
-                  class="w-full h-full object-cover object-top transition-opacity duration-300"
+                  class="w-full h-full object-cover object-top"
                 />
                 <div class="absolute inset-0 bg-gradient-to-t from-[#061528] via-transparent to-transparent"></div>
 
@@ -266,8 +266,13 @@
 
         </div>
 
+        <!-- Autoplay Progress Indicator (UzAuto Promo Style) -->
+        <div class="w-full bg-white/10 h-0.5 mt-8 overflow-hidden rounded">
+          <div id="hero-progress-bar" class="bg-[#DCA626] h-full w-0 hero-progress-line-reset"></div>
+        </div>
+
         <!-- Slider Pagination & Controls (Bottom Right Bar) -->
-        <div class="flex items-center justify-between pt-8 mt-8 border-t border-white/10">
+        <div class="flex items-center justify-between pt-4">
           <div class="flex items-center gap-3">
             <span class="text-xs text-slate-400 uppercase tracking-widest font-bold">Наставник:</span>
             <span id="hero-slide-counter" class="font-mono text-sm font-black text-[#DCA626]">01 / 04</span>

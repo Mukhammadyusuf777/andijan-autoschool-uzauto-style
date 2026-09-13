@@ -72,7 +72,7 @@ function setLanguage(lang) {
   });
 
   // Re-render Dynamic Sections
-  renderHeroSlide(currentSlideIndex);
+  updateHeroSlideDOM(currentSlideIndex);
   renderCourses();
   renderFleet();
   renderBranchesList();
@@ -82,38 +82,167 @@ function setLanguage(lang) {
 
 /**
  * 2. HERO SLIDER — INSTRUCTORS ("Учителя вместо машин")
+ * Autoplay: 3.5s (3500ms), Loop: true, pauseOnMouseEnter: true, 600ms ease-in-out
  */
+const HERO_AUTOPLAY_DELAY = 3500;
+let isHeroHovered = false;
+let isSlideTransitioning = false;
+
 function initHeroSlider() {
   const prevBtn = document.getElementById('hero-prev-btn');
   const nextBtn = document.getElementById('hero-next-btn');
-
-  if (prevBtn) prevBtn.addEventListener('click', () => changeHeroSlide(-1));
-  if (nextBtn) nextBtn.addEventListener('click', () => changeHeroSlide(1));
-
-  // Auto slide every 8 seconds
-  startSlideTimer();
-
   const heroSection = document.getElementById('hero-slider');
-  if (heroSection) {
-    heroSection.addEventListener('mouseenter', () => clearInterval(slideInterval));
-    heroSection.addEventListener('mouseleave', () => startSlideTimer());
+
+  // Initial render
+  updateHeroSlideDOM(currentSlideIndex);
+
+  // Manual Controls: Click resets timer and navigates immediately
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      changeHeroSlide(-1, true);
+    });
   }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      changeHeroSlide(1, true);
+    });
+  }
+
+  // Hover Management: pause on enter, resume on leave
+  if (heroSection) {
+    heroSection.addEventListener('mouseenter', () => {
+      isHeroHovered = true;
+      pauseSlideTimer();
+    });
+    heroSection.addEventListener('mouseleave', () => {
+      isHeroHovered = false;
+      startSlideTimer();
+    });
+  }
+
+  // Start continuous Autoplay
+  startSlideTimer();
 }
 
 function startSlideTimer() {
   clearInterval(slideInterval);
+  if (isHeroHovered) return;
+
+  resetProgressBarAnimation();
+
   slideInterval = setInterval(() => {
-    changeHeroSlide(1);
-  }, 8000);
+    if (!isHeroHovered && !isSlideTransitioning) {
+      changeHeroSlide(1, false);
+    }
+  }, HERO_AUTOPLAY_DELAY);
 }
 
-function changeHeroSlide(direction) {
+function pauseSlideTimer() {
+  clearInterval(slideInterval);
+  freezeProgressBar();
+}
+
+function resetProgressBarAnimation() {
+  const bar = document.getElementById('hero-progress-bar');
+  if (!bar) return;
+
+  // Instant reset to 0% width without animation
+  bar.classList.add('hero-progress-line-reset');
+  bar.classList.remove('hero-progress-line');
+  bar.style.width = '0%';
+
+  // Force reflow
+  void bar.offsetWidth;
+
+  // Animate smoothly to 100% over 3500ms
+  bar.classList.remove('hero-progress-line-reset');
+  bar.classList.add('hero-progress-line');
+  bar.style.width = '100%';
+}
+
+function freezeProgressBar() {
+  const bar = document.getElementById('hero-progress-bar');
+  if (!bar) return;
+
+  const currentWidth = window.getComputedStyle(bar).width;
+  bar.classList.add('hero-progress-line-reset');
+  bar.classList.remove('hero-progress-line');
+  bar.style.width = currentWidth;
+}
+
+/**
+ * Slide navigation with 600ms ease-in-out transition & circular loop
+ */
+function changeHeroSlide(direction, isManual = false) {
+  if (isSlideTransitioning) return;
+  isSlideTransitioning = true;
+
+  const leftCol = document.getElementById('hero-left-content');
+  const rightCol = document.getElementById('hero-right-content');
   const totalSlides = UZAUTO_DATA.heroSlides.length;
-  currentSlideIndex = (currentSlideIndex + direction + totalSlides) % totalSlides;
-  renderHeroSlide(currentSlideIndex);
+
+  // Next target index with cyclical loop: true
+  const nextIndex = (currentSlideIndex + direction + totalSlides) % totalSlides;
+
+  // If manually triggered, reset timer unless user is still hovering
+  if (isManual) {
+    if (!isHeroHovered) {
+      startSlideTimer();
+    } else {
+      pauseSlideTimer();
+    }
+  }
+
+  // STEP 1: Fade out & subtle slide out (300ms)
+  if (leftCol && rightCol) {
+    const outClass = direction >= 0 ? 'hero-slide-out-next' : 'hero-slide-out-prev';
+    leftCol.classList.add(outClass);
+    rightCol.classList.add(outClass);
+  }
+
+  setTimeout(() => {
+    // STEP 2: Update content in DOM
+    currentSlideIndex = nextIndex;
+    updateHeroSlideDOM(currentSlideIndex);
+
+    // Prepare incoming slide offset
+    if (leftCol && rightCol) {
+      leftCol.className = 'lg:col-span-7 flex flex-col justify-center hero-transition-element';
+      rightCol.className = 'lg:col-span-5 flex flex-col items-center justify-center relative hero-transition-element';
+
+      const prepClass = direction >= 0 ? 'hero-slide-prep-next' : 'hero-slide-prep-prev';
+      leftCol.classList.add(prepClass);
+      rightCol.classList.add(prepClass);
+
+      // Force reflow
+      void leftCol.offsetWidth;
+      void rightCol.offsetWidth;
+
+      // STEP 3: Smoothly animate into view (remaining 300ms)
+      leftCol.classList.remove(prepClass);
+      rightCol.classList.remove(prepClass);
+      leftCol.classList.add('hero-slide-active');
+      rightCol.classList.add('hero-slide-active');
+    }
+
+    setTimeout(() => {
+      // Clean up active classes
+      if (leftCol && rightCol) {
+        leftCol.classList.remove('hero-slide-active');
+        rightCol.classList.remove('hero-slide-active');
+      }
+      isSlideTransitioning = false;
+
+      // Restart progress bar if autoplay is running
+      if (!isHeroHovered && !isManual) {
+        resetProgressBarAnimation();
+      }
+    }, 300);
+
+  }, 300);
 }
 
-function renderHeroSlide(index) {
+function updateHeroSlideDOM(index) {
   const lang = UZAUTO_DATA.currentLang;
   const slide = UZAUTO_DATA.heroSlides[index];
   if (!slide) return;
